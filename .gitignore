@@ -1,0 +1,19 @@
+.gradle
+build
+out
+classes
+*.iml
+*.ipr
+*.iws
+runtime
+.classpath
+.project
+.settings
+bin
+Build.bat
+Clean.bat
+Deploy.bat
+FixDependicies.bat
+Install Forge.bat
+eclipse
+/Run.bat
