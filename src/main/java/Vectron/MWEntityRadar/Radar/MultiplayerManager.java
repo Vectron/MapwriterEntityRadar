@@ -1,9 +1,7 @@
 package Vectron.MWEntityRadar.Radar;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import mapwriter.map.MapView;
@@ -11,7 +9,6 @@ import mapwriter.map.mapmode.MapMode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
-import Vectron.MWEntityRadar.MWEntityRadar;
 import Vectron.MWEntityRadar.Proxy.ProxyClient;
 
 public class MultiplayerManager {
@@ -96,7 +93,7 @@ public class MultiplayerManager {
 		int dim = playerMP.dimension;
 		double PlayerRotationDegrees = playerMP.rotationYaw + 180;
 				
-		MultiPlayers player = new MultiPlayers(x,y,z,dim,Name,PlayerRotationDegrees, false);
+		MultiPlayers player = new MultiPlayers(Name, x, y, z, dim, PlayerRotationDegrees, false);
 		kvMultiplayers.put(Name, player);
     }
     
@@ -148,7 +145,7 @@ public class MultiplayerManager {
 				int dim = playerMP.dimension;
 				double PlayerRotationDegrees = playerMP.rotationYaw + 180;
 						
-				MultiPlayers player = new MultiPlayers(x,y,z,dim,Name,PlayerRotationDegrees, false);
+				//MultiPlayers player = new MultiPlayers(x,y,z,dim,Name,PlayerRotationDegrees, false);
 				//multiplayerList.add(player);
 			}
 		}				

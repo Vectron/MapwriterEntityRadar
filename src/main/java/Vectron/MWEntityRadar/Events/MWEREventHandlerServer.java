@@ -1,7 +1,5 @@
 package Vectron.MWEntityRadar.Events;
 
-import java.util.UUID;
-
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import Vectron.MWEntityRadar.Network.PlayerLocToClient;
@@ -25,7 +23,7 @@ public class MWEREventHandlerServer
 			double rot = player.rotationYaw + 180;
 			String name = player.getDisplayName();
 			
-			MultiPlayers mplayer = new MultiPlayers(x, y, z, dim, name, rot, false);
+			MultiPlayers mplayer = new MultiPlayers(name, x, y, z, dim, rot, false);
 			Reference.simpleNetworkWrapper.sendToAll(new PlayerLocToClient(mplayer));
 		}
     }
@@ -34,7 +32,7 @@ public class MWEREventHandlerServer
 	public void PlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
 	{
 		String name = event.player.getDisplayName();
-		MultiPlayers mplayer = new MultiPlayers(-1, -1, -1, -1, name, 0, true);
+		MultiPlayers mplayer = new MultiPlayers(name, -1, -1, -1, -1, 0, true);
 		Reference.simpleNetworkWrapper.sendToAll(new PlayerLocToClient(mplayer));	
 	}
 }

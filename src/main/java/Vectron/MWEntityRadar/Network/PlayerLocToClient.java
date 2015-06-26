@@ -1,7 +1,6 @@
 package Vectron.MWEntityRadar.Network;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.world.WorldServer;
 import Vectron.MWEntityRadar.Radar.MultiPlayers;
 import Vectron.MWEntityRadar.Radar.MultiplayerManager;
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -50,7 +49,7 @@ public class PlayerLocToClient implements IMessage
 			double rotation = buf.readDouble();
 			boolean loggedout = buf.readBoolean();
 			
-			Player = new MultiPlayers(x,y,z,dimension,name,rotation, loggedout);
+			Player = new MultiPlayers(name, x,y,z,dimension,rotation, loggedout);
 		 }
 		 catch (IndexOutOfBoundsException ioe)
 		 {
@@ -65,7 +64,7 @@ public class PlayerLocToClient implements IMessage
 	{
 		if (!messageIsValid) return;
 		
-		ByteBufUtils.writeUTF8String(buf,Player.name);
+		ByteBufUtils.writeUTF8String(buf, Player.name);
 	    buf.writeInt(Player.x);
 	    buf.writeInt(Player.y);
 	    buf.writeInt(Player.z);

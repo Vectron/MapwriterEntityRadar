@@ -1,6 +1,5 @@
+[
 {
-  "modListVersion": 2,
-  "modList": [{
     "modid": "mwentityradar",
     "name": "Mapwriter Entity Radar",
     "description": "Entity Radar for the mapwriter mod.",
@@ -12,10 +11,6 @@
     "credits": "Authored by ",
     "logoFile": "",
     "screenshots": [  ],
-    "parent": "mod_BuildCraftCore",
-    "requiredMods": [ "Forge", "MapWriter" ],
-    "dependencies": [ "MapWriter" ],
-    "dependants": [ "" ],
-    "useDependencyInformation": true
-  }]
+    "dependencies": [ "MapWriter" ]
 }
+]

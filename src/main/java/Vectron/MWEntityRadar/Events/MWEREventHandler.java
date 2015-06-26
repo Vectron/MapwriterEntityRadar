@@ -12,8 +12,7 @@ public class MWEREventHandler {
     public void EntityJoinedTheWorld(EntityJoinWorldEvent event){
 		if (event.entity instanceof  EntityOtherPlayerMP)
 		{
-			//System.out.println(String.format("%s joined dimension %d, isRemote:%b",event.entity.toString(), event.entity.dimension, event.world.isRemote));
-	    	MultiplayerManager.getInstance().addPlayer((EntityOtherPlayerMP)event.entity);
+			MultiplayerManager.getInstance().addPlayer((EntityOtherPlayerMP)event.entity);
 		}
     }
 }

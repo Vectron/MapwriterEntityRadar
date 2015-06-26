@@ -11,13 +11,11 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import Vectron.MWEntityRadar.MWEntityRadar;
 import Vectron.MWEntityRadar.Proxy.ProxyClient;
-import Vectron.MWEntityRadar.utils.Reference;
 import Vectron.MWEntityRadar.utils.Utils;
 
-public class MultiPlayers {
-	
+public class MultiPlayers
+{
 	public final String name;
 	public int x;
 	public int y;
@@ -30,11 +28,11 @@ public class MultiPlayers {
 	
 	public Point.Double screenPos = new Point.Double(0, 0);
 	
-	public MultiPlayers(int x, int y, int z, int dimension, String PlayerName, double Rotation, boolean loggedout) {
+	public MultiPlayers(String name, int x, int y, int z, int dimension, double Rotation, boolean loggedout) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.name = PlayerName;
+		this.name = name;
 		this.dimension = dimension;
 		this.rotation = Rotation;
 		this.LoggedOut = loggedout;
@@ -44,7 +42,7 @@ public class MultiPlayers {
 	{
 		if (mapView.getDimension() == this.dimension)
 		{   
-			this.skin = Utils.GetSkin(this.name);
+			this.skin = Utils.GetSkin(name);
 			
 			double scale = mapView.getDimensionScaling(this.dimension);
 			Point.Double p = mapMode.getClampedScreenXY(mapView, this.x * scale, this.z * scale);
@@ -52,8 +50,7 @@ public class MultiPlayers {
 			double arrowSize = mapMode.playerArrowSize  * 0.91; //1.3
 
 			Render.setColour(0xffffffff);
-			ProxyClient.mc.renderEngine.bindTexture(Reference.playerMPArrowTexture);
-			
+
 			ProxyClient.mc.renderEngine.bindTexture(skin);
 			
 			double w = arrowSize; // * 0.7
