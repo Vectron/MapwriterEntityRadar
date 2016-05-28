@@ -2,22 +2,17 @@ package Vectron.MWEntityRadar.Radar;
 
 import java.awt.Point;
 
-import mapwriter.MwUtil;
-import mapwriter.Render;
-import mapwriter.map.MapView;
-import mapwriter.map.mapmode.MapMode;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
-import Vectron.MWEntityRadar.MWEntityRadar;
 import Vectron.MWEntityRadar.Proxy.ProxyClient;
-import Vectron.MWEntityRadar.utils.Reference;
 import Vectron.MWEntityRadar.utils.Utils;
+import mapwriter.api.IMapMode;
+import mapwriter.api.IMapView;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 
-public class MultiPlayers {
-	
+public class MultiPlayers
+{
 	public final String name;
 	public int x;
 	public int y;
@@ -25,12 +20,14 @@ public class MultiPlayers {
 	public int dimension;
 	public double rotation;
 	public ResourceLocation skin;
-	
+
 	public boolean LoggedOut;
-	
+
 	public Point.Double screenPos = new Point.Double(0, 0);
-	
-	public MultiPlayers(int x, int y, int z, int dimension, String PlayerName, double Rotation, boolean loggedout) {
+
+	public MultiPlayers(int x, int y, int z, int dimension, String PlayerName, double Rotation,
+			boolean loggedout)
+	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -39,48 +36,53 @@ public class MultiPlayers {
 		this.rotation = Rotation;
 		this.LoggedOut = loggedout;
 	}
-	
-	public void draw(MapMode mapMode, MapView mapView)
+
+	public void draw(IMapMode mapMode, IMapView mapView)
 	{
 		if (mapView.getDimension() == this.dimension)
-		{   
-			this.skin = Utils.GetSkin(this.name);
-			
-			double scale = mapView.getDimensionScaling(this.dimension);
-			Point.Double p = mapMode.getClampedScreenXY(mapView, this.x * scale, this.z * scale);
-			this.screenPos.setLocation(p.x + mapMode.xTranslation, p.y + mapMode.yTranslation);
-			double arrowSize = mapMode.playerArrowSize  * 0.91; //1.3
-
-			Render.setColour(0xffffffff);
-			ProxyClient.mc.renderEngine.bindTexture(Reference.playerMPArrowTexture);
-			
-			ProxyClient.mc.renderEngine.bindTexture(skin);
-			
-			double w = arrowSize; // * 0.7
-			double h = arrowSize; //* 0.7
-			double zDepth = 0;
-			double u1 = 0.125; //0
-			double v1 = 0.25; //0
-			double u2 = 0.25; //1
-			double v2 = 0.5; //1
-			
-			try {
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		        Tessellator tes = Tessellator.instance;
-		        tes.startDrawingQuads();
-		       
-		        tes.addVertexWithUV(p.x + (w * Math.cos(Math.toRadians(315 + rotation))), p.y + (h * Math.sin(Math.toRadians(315 + rotation))), zDepth, u2, v1);
-		        tes.addVertexWithUV(p.x + (w * Math.cos(Math.toRadians(225 + rotation))), p.y + (h * Math.sin(Math.toRadians(225 + rotation))), zDepth, u1, v1);
-		        tes.addVertexWithUV(p.x + (w * Math.cos(Math.toRadians(135 + rotation))), p.y + (h * Math.sin(Math.toRadians(135 + rotation))), zDepth, u1, v2);
-		        tes.addVertexWithUV(p.x + (w * Math.cos(Math.toRadians( 45 + rotation))), p.y + (h * Math.sin(Math.toRadians( 45 + rotation))), zDepth, u2, v2);
-		        
-				tes.draw();
-				GL11.glDisable(GL11.GL_BLEND);
-			} catch (NullPointerException e) {
-				MwUtil.log("MwRender.drawTexturedRect: null pointer exception");
+		{
+			if (this.skin == null)
+			{
+				this.skin = Utils.GetSkin(this.name);
 			}
+
+			double arrowSize = mapMode.getConfig().getPlayerArrowSize() * 1.0;
+			double w = arrowSize;
+			double h = arrowSize;
+
+			double zDepth = 0.0;
+			if (mapMode.getConfig().getCircular())
+			{
+				zDepth = -1.0;
+			}
+
+			double scale = mapView.getDimensionScaling(this.dimension);
+			Point.Double p = mapMode.blockXZtoScreenXY(mapView, this.x * scale, this.z * scale);
+			this.screenPos.setLocation(
+					p.x + mapMode.getXTranslation(),
+					p.y + mapMode.getYTranslation());
+
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GlStateManager.color(255, 255, 255, 255);
+			GlStateManager.disableBlend();
+
+			// ProxyClient.mc.renderEngine.bindTexture(Reference.playerMPArrowTexture);
+			ProxyClient.mc.renderEngine.bindTexture(skin);
+
+			Utils.drawRotatingScaledCustomSizeModalRect(
+					p.x,
+					p.y,
+					8,
+					8,
+					8,
+					8,
+					w,
+					h,
+					64.0F,
+					64.0F,
+					this.rotation,
+					zDepth);
 		}
 	}
 }
